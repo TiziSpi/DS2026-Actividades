@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Buscador de Libros</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 700px; margin: auto; }
+    input { padding: 8px; width: 300px; font-size: 16px; }
+    button { padding: 8px 16px; font-size: 16px; margin-left: 8px; cursor: pointer; }
+    .tarjeta {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+      background: #f9f9f9;
+    }
+    .tarjeta h3 { margin: 0 0 6px 0; }
+    .tarjeta p { margin: 2px 0; color: #555; }
+    .error { color: red; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1> Buscador de Libros</h1>
+
+  <input type="text" id="inputBusqueda" placeholder="Ej: Harry Potter" />
+  <button id="btnBuscar">Buscar</button>
+
+  <p id="mensajeError" class="error" style="display:none;">
+    Por favor ingresá un texto para buscar.
+  </p>
+
+  <div id="resultados"></div>
+
+  <script>
+    const input = document.getElementById("inputBusqueda");
+    const boton = document.getElementById("btnBuscar");
+    const resultados = document.getElementById("resultados");
+    const mensajeError = document.getElementById("mensajeError");
+
+    boton.addEventListener("click", buscar);
+
+    async function buscar() {
+      const texto = input.value.trim();
+
+      // Validación: campo vacío
+      if (texto === "") {
+        mensajeError.style.display = "block";
+        resultados.innerHTML = "";
+        return;
+      }
+
+      mensajeError.style.display = "none";
+      resultados.innerHTML = "<p>Cargando...</p>";
+
+      try {
+        const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(texto)}`;
+        const respuesta = await fetch(url);
+
+        if (!respuesta.ok) {
+          throw new Error("Error en la petición");
+        }
+
+        const datos = await respuesta.json();
+        const libros = datos.docs.slice(0, 10);
+
+        resultados.innerHTML = "";
+
+        if (libros.length === 0) {
+          resultados.innerHTML = "<p>No se encontraron resultados.</p>";
+          return;
+        }
+
+        for (const libro of libros) {
+          const titulo = libro.title || "Sin título";
+          const autor = libro.author_name ? libro.author_name[0] : "Autor desconocido";
+          const anio = libro.first_publish_year || "Año desconocido";
+
+          const tarjeta = document.createElement("div");
+          tarjeta.className = "tarjeta";
+
+          tarjeta.innerHTML = `
+            <h3>${titulo}</h3>
+            <p>Autor: ${autor}</p>
+            <p>Año: ${anio}</p>
+          `;
+
+          resultados.appendChild(tarjeta);
+        }
+
+      } catch (error) {
+        resultados.innerHTML = `<p class="error">Error al buscar libros.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
