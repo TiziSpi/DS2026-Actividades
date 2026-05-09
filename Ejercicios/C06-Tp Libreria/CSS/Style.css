@@ -1,4 +1,33 @@
-.hero {
-  background-color: rgba(0, 0, 0, 0.5);
+.hero,
+.seccion-libros {
+  background-image: url('../Hola.jpg');
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(0,0,0,0.5);
   background-blend-mode: overlay;
+}
+
+.navbar {
+  background-color: #5C3D2E !important;
+}
+
+.navbar-brand,
+.nav-link {
+  color: #F5E6C8 !important;
+}
+
+.nav-link:hover {
+  color: #FFD700 !important;
+}
+
+.seccion-libros {
+  background-image: url('../Aver.png');
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(0,0,0,0.5);
+  background-blend-mode: overlay;
+}
+
+.seccion-libros h2 {
+  color: #F5E6C8;
 }
