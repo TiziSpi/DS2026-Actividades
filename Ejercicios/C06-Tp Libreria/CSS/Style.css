@@ -31,3 +31,31 @@
 .seccion-libros h2 {
   color: #F5E6C8;
 }
+
+.fondo-pagina {
+  background-image: url('../Aver.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: rgba(0,0,0,0.5);
+  background-blend-mode: overlay;
+  min-height: 100vh;
+}
+
+.fondo-pagina h2 {
+  color: #F5E6C8;
+}
+
+.fondo-pagina label {
+  color: #F5E6C8;
+}
+.fondo-pagina h1,
+.fondo-pagina h4,
+.fondo-pagina h5,
+.fondo-pagina p {
+  color: #F5E6C8;
+}
+
+.fondo-pagina h5.text-muted {
+  color: #F5E6C8 !important;
+}
