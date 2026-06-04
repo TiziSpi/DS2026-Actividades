@@ -1,10 +1,17 @@
-import Home from './pages/Home'
+import { Routes, Route } from 'react-router-dom'
 import Layout from './layout/Layout'
+import Home from './pages/Home'
+import Catalogo from './pages/Catalogo'
+import LibroDetalle from './pages/LibroDetalle'
 
 export default function App() {
   return (
     <Layout>
-      <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/libros" element={<Catalogo />} />
+        <Route path="/libros/:id" element={<LibroDetalle />} />
+      </Routes>
     </Layout>
   )
 }

@@ -1,19 +1,15 @@
 import { useState } from 'react'
-
+import { Link } from 'react-router-dom'
 import type { libro } from '../types/Libro'
 
-export default function BookCard({ 
-  title, 
-  author, 
-  cover, 
-  price }: libro) {
+export default function BookCard({ id, title, author, cover, price }: libro) {
   const [liked, setLiked] = useState(false)
 
   return (
     <div
       style={{
         width: '220px',
-        minHeight: '470px',
+        minHeight: '500px',
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#f0f7f7',
@@ -23,92 +19,38 @@ export default function BookCard({
         boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
       }}
     >
-      <img
-        src={cover}
-        alt={title}
-        style={{
-          width: '100%',
-          height: '320px',
-          objectFit: 'cover',
-          objectPosition: 'center',
-          display: 'block',
-        }}
-      />
+      <img src={cover} alt={title} style={{ width: '100%', height: '320px', objectFit: 'cover' }} />
 
-      <div
-        style={{
-          padding: '1rem',
-          display: 'flex',
-          flexDirection: 'column',
-          flex: 1,
-        }}
-      >
-        <p
-          style={{
-            fontWeight: 700,
-            fontSize: '1rem',
-            marginBottom: '0.2rem',
-            color: '#2b3a2b',
-            minHeight: '48px',
-          }}
-        >
+      <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <p style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.2rem', color: '#2b3a2b', minHeight: '48px' }}>
           {title}
         </p>
 
-        <p
-          style={{
-            color: '#5a7a7a',
-            fontSize: '0.9rem',
-            marginBottom: '0.5rem',
-          }}
-        >
+        <p style={{ color: '#5a7a7a', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
           {author}
         </p>
 
-        <p
-          style={{
-            fontWeight: 700,
-            marginBottom: '1rem',
-            color: '#3a6060',
-            fontSize: '1rem',
-          }}
-        >
+        <p style={{ fontWeight: 700, marginBottom: '1rem', color: '#3a6060', fontSize: '1rem' }}>
           ${price.toLocaleString('es-AR')}
         </p>
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: 'auto',
-          }}
-        >
-          <button
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
+          <Link
+            to={`/libros/${id}`}
             style={{
               backgroundColor: '#7a9e9f',
               color: '#fff',
-              border: 'none',
+              textDecoration: 'none',
               padding: '0.45rem 0.9rem',
               borderRadius: '6px',
               fontSize: '0.9rem',
-              fontFamily: 'Cormorant, serif',
-              cursor: 'pointer',
               fontWeight: 700,
             }}
           >
-            + Carrito
-          </button>
+            Ver más
+          </Link>
 
-          <button
-            onClick={() => setLiked(!liked)}
-            style={{
-              background: 'none',
-              border: 'none',
-              fontSize: '1.2rem',
-              cursor: 'pointer',
-            }}
-          >
+          <button onClick={() => setLiked(!liked)} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer' }}>
             {liked ? '❤️' : '🤍'}
           </button>
         </div>

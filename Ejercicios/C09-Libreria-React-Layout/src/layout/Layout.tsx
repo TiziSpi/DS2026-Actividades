@@ -7,10 +7,20 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   return (
-    <>
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <Navbar />
-      {children}
+
+      <div style={{ flex: 1 }}>
+        {children}
+      </div>
+
       <Footer />
-    </>
+    </div>
   )
 }
