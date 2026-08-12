@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "1984",
+    "author": "George Orwell",
+    "price": 15000,
+    "cover": "https://covers.openlibrary.org/b/id/7222246-L.jpg"
+  },
+  {
+    "id": 2,
+    "title": "El Principito",
+    "author": "Antoine de Saint-Exupéry",
+    "price": 12000,
+    "cover": "https://covers.openlibrary.org/b/id/8101356-L.jpg"
+  }
+]

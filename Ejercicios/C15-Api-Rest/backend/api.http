@@ -1,0 +1,72 @@
+### =========================
+### LIBROS
+### =========================
+
+### Listar libros
+GET http://localhost:3000/api/libros
+
+### Obtener libro por id
+GET http://localhost:3000/api/libros/1
+
+### Libro inexistente - 404
+GET http://localhost:3000/api/libros/999
+
+### Crear libro
+POST http://localhost:3000/api/libros
+Content-Type: application/json
+
+{
+  "titulo": "Ficciones",
+  "autor": "Jorge Luis Borges",
+  "precio": 8000,
+  "imagen": "https://placehold.co/300x400?text=Ficciones",
+  "disponible": true
+}
+
+### Actualizar libro
+PUT http://localhost:3000/api/libros/2
+Content-Type: application/json
+
+{
+  "titulo": "1984 - Edicion Especial",
+  "autor": "George Orwell",
+  "precio": 7500,
+  "imagen": "https://placehold.co/300x400?text=1984",
+  "disponible": false
+}
+
+### Eliminar libro
+DELETE http://localhost:3000/api/libros/3
+
+
+### =========================
+### AUTORES
+### =========================
+
+### Listar autores
+GET http://localhost:3000/api/autores
+
+### Obtener autor por id
+GET http://localhost:3000/api/autores/1
+
+### Autor inexistente - 404
+GET http://localhost:3000/api/autores/999
+
+### Crear autor
+POST http://localhost:3000/api/autores
+Content-Type: application/json
+
+{
+  "nombre": "Jorge Luis Borges"
+}
+
+### Actualizar autor
+PUT http://localhost:3000/api/autores/2
+Content-Type: application/json
+
+{
+  "nombre": "George Orwell Actualizado"
+}
+
+### Eliminar autor
+DELETE http://localhost:3000/api/autores/3
