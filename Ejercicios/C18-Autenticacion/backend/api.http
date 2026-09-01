@@ -1,0 +1,334 @@
+@baseUrl = http://localhost:3000
+
+### =====================================================
+### C18 - SEGURIDAD EN LA LIBRERIA
+### =====================================================
+
+
+### =====================================================
+### CASO 1 - Registro correcto
+### Esperado: 201 sin passwordHash
+### =====================================================
+
+POST {{baseUrl}}/api/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Tiziano C18",
+  "email": "tiziano.c18@libreria.test",
+  "password": "Libreria2026"
+}
+
+
+### =====================================================
+### CASO 2 - Registro con email repetido
+### Esperado: 409
+### =====================================================
+
+POST {{baseUrl}}/api/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Tiziano Repetido",
+  "email": "tiziano.c18@libreria.test",
+  "password": "Libreria2026"
+}
+
+
+### =====================================================
+### CASO 3 - Password invalida
+### Esperado: 400 con 3 errores
+### =====================================================
+
+POST {{baseUrl}}/api/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Usuario Invalido",
+  "email": "invalido@libreria.test",
+  "password": "corta"
+}
+
+
+### =====================================================
+### CASO 4 - Login con email inexistente
+### Esperado: 401 Credenciales inválidas
+### =====================================================
+
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "noexiste@libreria.test",
+  "password": "Cliente1234"
+}
+
+
+### =====================================================
+### CASO 5 - Login con password incorrecta
+### Esperado: 401 mismo mensaje
+### =====================================================
+
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "cliente@libreria.test",
+  "password": "Incorrecta123"
+}
+
+
+### =====================================================
+### CASO 6 - Login correcto CLIENTE
+### Esperado: 200 con token
+### =====================================================
+
+# @name loginCliente
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "cliente@libreria.test",
+  "password": "Cliente1234"
+}
+
+
+### =====================================================
+### Guardamos token CLIENTE
+### =====================================================
+
+@clienteToken = {{loginCliente.response.body.token}}
+
+
+### =====================================================
+### CASO 7 - /yo sin token
+### Esperado: 401
+### =====================================================
+
+GET {{baseUrl}}/api/auth/yo
+
+
+### =====================================================
+### CASO 8 - /yo como CLIENTE
+### Esperado: 200 sin passwordHash
+### IMPORTANTE: antes ejecutar CASO 6
+### =====================================================
+
+GET {{baseUrl}}/api/auth/yo
+Authorization: Bearer {{clienteToken}}
+
+
+### =====================================================
+### CASO 9 - Crear libro sin token
+### Esperado: 401
+### =====================================================
+
+POST {{baseUrl}}/api/libros
+Content-Type: application/json
+
+{
+  "titulo": "Libro sin token",
+  "precio": 5000,
+  "imagen": "https://placehold.co/300x400?text=Sin+Token",
+  "disponible": true,
+  "autorId": 1
+}
+
+
+### =====================================================
+### CASO 10 - Crear libro como CLIENTE
+### Esperado: 403
+### IMPORTANTE: antes ejecutar CASO 6
+### =====================================================
+
+POST {{baseUrl}}/api/libros
+Authorization: Bearer {{clienteToken}}
+Content-Type: application/json
+
+{
+  "titulo": "Libro desde cliente",
+  "precio": 5000,
+  "imagen": "https://placehold.co/300x400?text=Cliente",
+  "disponible": true,
+  "autorId": 1
+}
+
+
+### =====================================================
+### LOGIN ADMIN
+### Preparacion para CASO 11
+### =====================================================
+
+# @name loginAdmin
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@libreria.test",
+  "password": "Admin1234"
+}
+
+
+### =====================================================
+### Guardamos token ADMIN
+### =====================================================
+
+@adminToken = {{loginAdmin.response.body.token}}
+
+
+### =====================================================
+### CASO 11 - Crear libro como ADMIN
+### Esperado: 201
+### IMPORTANTE: antes ejecutar LOGIN ADMIN
+### =====================================================
+
+POST {{baseUrl}}/api/libros
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "titulo": "Fahrenheit 451",
+  "precio": 8500,
+  "imagen": "https://placehold.co/300x400?text=Fahrenheit+451",
+  "disponible": true,
+  "autorId": 1
+}
+
+
+### =====================================================
+### CASO 12 - Listar libros sin token
+### Esperado: 200
+### =====================================================
+
+GET {{baseUrl}}/api/libros
+
+
+### =====================================================
+### PRUEBAS EXTRA - LIBROS
+### =====================================================
+
+### Listar libros disponibles
+GET {{baseUrl}}/api/libros?disponible=true
+
+
+### Obtener libro por id
+GET {{baseUrl}}/api/libros/1
+
+
+### Libro inexistente - 404
+GET {{baseUrl}}/api/libros/999
+
+
+### Actualizar libro como ADMIN
+PUT {{baseUrl}}/api/libros/2
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "titulo": "1984 - Edicion Especial",
+  "precio": 7500,
+  "disponible": false,
+  "autorId": 2
+}
+
+
+### Eliminar libro como ADMIN
+DELETE {{baseUrl}}/api/libros/3
+Authorization: Bearer {{adminToken}}
+
+
+### =====================================================
+### PRUEBAS EXTRA - AUTORES
+### =====================================================
+
+### Listar autores
+GET {{baseUrl}}/api/autores
+
+
+### Obtener autor por id
+GET {{baseUrl}}/api/autores/1
+
+
+### Autor inexistente - 404
+GET {{baseUrl}}/api/autores/999
+
+
+### Crear autor como ADMIN
+POST {{baseUrl}}/api/autores
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "nombre": "Jorge Luis Borges",
+  "nacionalidad": "Argentina"
+}
+
+
+### Actualizar autor como ADMIN
+PUT {{baseUrl}}/api/autores/2
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "nombre": "George Orwell Actualizado",
+  "nacionalidad": "Reino Unido"
+}
+
+
+### =====================================================
+### ERRORES C17 ADAPTADOS A C18
+### =====================================================
+
+### 400 - Libro sin titulo
+POST {{baseUrl}}/api/libros
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "precio": 5000,
+  "imagen": "https://placehold.co/300x400?text=Sin+Titulo",
+  "autorId": 1
+}
+
+
+### 400 - ID invalido
+GET {{baseUrl}}/api/libros/abc
+
+
+### 400 - Autor inexistente
+POST {{baseUrl}}/api/libros
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "titulo": "Huerfano",
+  "precio": 5000,
+  "imagen": "https://placehold.co/300x400?text=Huerfano",
+  "autorId": 9999
+}
+
+
+### 409 - Autor duplicado
+POST {{baseUrl}}/api/autores
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "nombre": "Antoine de Saint-Exupéry",
+  "nacionalidad": "Francia"
+}
+
+
+### 409 - Intentar borrar autor con libros
+DELETE {{baseUrl}}/api/autores/1
+Authorization: Bearer {{adminToken}}
+
+
+### 404 - Actualizar libro inexistente
+PUT {{baseUrl}}/api/libros/9999
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "precio": 9000
+}
