@@ -1,0 +1,58 @@
+export const allBooks = [
+  {
+    id: 1,
+    title: 'El Señor de los Anillos',
+    author: 'J.R.R. Tolkien',
+    cover: 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1566425108i/33.jpg',
+    price: 25000,
+  },
+  {
+    id: 2,
+    title: 'El Hobbit',
+    author: 'J.R.R. Tolkien',
+    cover: 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1546071216i/5907.jpg',
+    price: 19000,
+  },
+  {
+    id: 3,
+    title: 'Harry Potter y la Piedra Filosofal',
+    author: 'J.K. Rowling',
+    cover: 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1474154022i/3.jpg',
+    price: 18000,
+  },
+  {
+    id: 4,
+    title: '1984',
+    author: 'George Orwell',
+    cover: 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1532714506i/40961427.jpg',
+    price: 15000,
+  },
+  {
+    id: 5,
+    title: 'Rebelión en la Granja',
+    author: 'George Orwell',
+    cover: 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1325861570i/170448.jpg',
+    price: 14000,
+  },
+  {
+    id: 6,
+    title: 'Fahrenheit 451',
+    author: 'Ray Bradbury',
+    cover: 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1383718290i/13079982.jpg',
+    price: 19000,
+  },
+  {
+    id: 7,
+    title: 'Crimen y Castigo',
+    author: 'Fiódor Dostoyevski',
+    cover: 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1382846449i/7144.jpg',
+    price: 28000,
+  },
+  {
+    id: 8,
+    title: 'Dune',
+    author: 'Frank Herbert',
+    cover: 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1434908555i/234225.jpg',
+    price: 22000,
+  },
+]
