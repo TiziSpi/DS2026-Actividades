@@ -1,3 +1,4 @@
+
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -13,6 +14,14 @@ import type {
   LoginInput
 } from "../validations/auth.validation";
 
+const usuarioPublico = {
+  id: true,
+  nombre: true,
+  email: true,
+  rol: true,
+  creadoEn: true
+} as const;
+
 export async function registrar(datos: RegistroInput) {
   const passwordHash = await bcrypt.hash(
     datos.password,
@@ -24,7 +33,8 @@ export async function registrar(datos: RegistroInput) {
       nombre: datos.nombre,
       email: datos.email,
       passwordHash
-    }
+    },
+    select: usuarioPublico
   });
 }
 
@@ -33,8 +43,10 @@ export async function login(datos: LoginInput) {
     where: {
       email: datos.email
     },
-    omit: {
-      passwordHash: false
+    select: {
+      id: true,
+      rol: true,
+      passwordHash: true
     }
   });
 
@@ -71,6 +83,7 @@ export async function findById(id: number) {
   return prisma.usuario.findUnique({
     where: {
       id
-    }
+    },
+    select: usuarioPublico
   });
 }
